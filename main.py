@@ -18,13 +18,15 @@ DB_DIR: str = os.path.join(ABS_PATH, "db")
 rag_prompt_mistral = hub.pull("rlm/rag-prompt-mistral")
 
 
-def load_model():
+def load_model(temperature=1.0):
     llm = Ollama(
         model="mistral",
+        temperature=temperature,
         verbose=True,
         callback_manager=CallbackManager([StreamingStdOutCallbackHandler()]),
     )
     return llm
+
 
 
 def retrieval_qa_chain(llm, vectorstore):
@@ -37,8 +39,8 @@ def retrieval_qa_chain(llm, vectorstore):
     return qa_chain
 
 
-def qa_bot():
-    llm = load_model()
+def qa_bot(temperature=1.0):
+    llm = load_model(temperature)
     DB_PATH = DB_DIR
     vectorstore = Chroma(
         persist_directory=DB_PATH, embedding_function=OllamaEmbeddings(model="mistral")
