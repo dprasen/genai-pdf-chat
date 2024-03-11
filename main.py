@@ -56,7 +56,7 @@ async def start():
     This asynchronous function creates a new instance of the retrieval QA bot,
     sends a welcome message, and stores the bot instance in the user's session.
     """
-    chain = qa_bot()
+    chain = qa_bot(temperature=0.5)
     welcome_message = cl.Message(content="Starting the bot...")
     await welcome_message.send()
     welcome_message.content = (
